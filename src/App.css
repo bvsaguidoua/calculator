@@ -1,0 +1,214 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px 30px;
+  background: radial-gradient(
+    circle at top,
+    #263449 0%,
+    #111827 45%,
+    #080b11 100%
+  );
+  color: white;
+}
+
+/* Header */
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.header p {
+  color: #94a3b8;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Calculator */
+
+.calculator {
+  width: 390px;
+  padding: 22px;
+  border-radius: 28px;
+  background: #141b27;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Display */
+
+.display {
+  height: 145px;
+  padding: 20px;
+  margin-bottom: 18px;
+  border-radius: 20px;
+  background: #090d14;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  overflow: hidden;
+}
+
+.previous-operation {
+  min-height: 24px;
+  width: 100%;
+  text-align: right;
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.current-value {
+  width: 100%;
+  text-align: right;
+  font-size: 42px;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Buttons */
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.button {
+  height: 68px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: #202938;
+  color: #f8fafc;
+
+  font-size: 22px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
+
+  box-shadow:
+    0 4px 0 #111722,
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.button:hover {
+  background: #2b3749;
+}
+
+.button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #111722;
+}
+
+/* AC / DEL / % */
+
+.button.function {
+  background: #334155;
+  color: #cbd5e1;
+}
+
+.button.function:hover {
+  background: #475569;
+}
+
+/* Operators */
+
+.button.operator {
+  background: #f59e0b;
+  color: white;
+  font-size: 27px;
+
+  box-shadow:
+    0 4px 0 #a16207,
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.button.operator:hover {
+  background: #fbbf24;
+}
+
+/* Equals */
+
+.button.equals {
+  background: #22c55e;
+  color: white;
+  font-size: 27px;
+
+  box-shadow:
+    0 4px 0 #15803d,
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.button.equals:hover {
+  background: #34d399;
+}
+
+/* Zero */
+
+.button.zero {
+  grid-column: span 2;
+}
+
+/* Footer */
+
+footer {
+  margin-top: 28px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+footer span {
+  color: #94a3b8;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .app {
+    padding: 30px 12px;
+  }
+
+  .header h1 {
+    font-size: 21px;
+  }
+
+  .calculator {
+    width: 100%;
+    max-width: 390px;
+    padding: 16px;
+  }
+
+  .button {
+    height: 62px;
+  }
+
+  .current-value {
+    font-size: 36px;
+  }
+}
