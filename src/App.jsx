@@ -3,92 +3,232 @@ import "./App.css";
 
 function App() {
   const [display, setDisplay] = useState("0");
+  const [previousValue, setPreviousValue] = useState(null);
+  const [operator, setOperator] = useState(null);
+  const [waitingForOperand, setWaitingForOperand] = useState(false);
 
-  const pressButton = (value) => {
-    if (value === "AC") {
-      setDisplay("0");
+  const inputNumber = (number) => {
+    if (waitingForOperand) {
+      setDisplay(number);
+      setWaitingForOperand(false);
       return;
     }
 
-    if (value === "DEL") {
-      setDisplay((current) => {
-        if (current.length <= 1) return "0";
-        return current.slice(0, -1);
-      });
+    setDisplay(display === "0" ? number : display + number);
+  };
+
+  const inputDecimal = () => {
+    if (waitingForOperand) {
+      setDisplay("0.");
+      setWaitingForOperand(false);
       return;
     }
 
-    if (value === "=") {
-      // Does nothing — calculator cannot perform operations
-      return;
-    }
-
-    if (value === "%") {
-      setDisplay((current) => (current === "0" ? "%" : current + "%"));
-      return;
-    }
-
-    if (display === "0") {
-      setDisplay(value);
-    } else {
-      setDisplay((current) => current + value);
+    if (!display.includes(".")) {
+      setDisplay(display + ".");
     }
   };
 
+  const clearCalculator = () => {
+    setDisplay("0");
+    setPreviousValue(null);
+    setOperator(null);
+    setWaitingForOperand(false);
+  };
+
+  const deleteNumber = () => {
+    if (waitingForOperand) return;
+
+    if (display.length === 1) {
+      setDisplay("0");
+    } else {
+      setDisplay(display.slice(0, -1));
+    }
+  };
+
+  // Operators are displayed but do not perform calculations
+  const chooseOperator = (nextOperator) => {
+    setPreviousValue(display);
+    setOperator(nextOperator);
+    setWaitingForOperand(true);
+  };
+
+  // Percentage button only displays the % symbol
+  const percentage = () => {
+    if (display !== "0" && !display.endsWith("%")) {
+      setDisplay(display + "%");
+    }
+  };
+
+  // Equals button intentionally does not calculate
+  const performCalculation = () => {
+    return;
+  };
+
   return (
-    <div className="calculator">
-      <div className="display">{display}</div>
+    <div className="app">
 
-      <div className="buttons">
-        <button onClick={() => pressButton("AC")}>AC</button>
-        <button onClick={() => pressButton("DEL")}>DEL</button>
-        <button onClick={() => pressButton("%")}>%</button>
-        <button
-          className="operator"
-          onClick={() => pressButton("÷")}
-        >
-          ÷
-        </button>
+      <header className="header">
+        <h1>BERNARDO V. SAGUIDO - IT3A</h1>
+        <p>React Calculator</p>
+      </header>
 
-        <button onClick={() => pressButton("7")}>7</button>
-        <button onClick={() => pressButton("8")}>8</button>
-        <button onClick={() => pressButton("9")}>9</button>
-        <button
-          className="operator"
-          onClick={() => pressButton("×")}
-        >
-          ×
-        </button>
+      <main className="calculator">
 
-        <button onClick={() => pressButton("4")}>4</button>
-        <button onClick={() => pressButton("5")}>5</button>
-        <button onClick={() => pressButton("6")}>6</button>
-        <button
-          className="operator"
-          onClick={() => pressButton("−")}
-        >
-          −
-        </button>
+        <div className="display">
+          <div className="previous-operation">
+            {previousValue !== null && operator
+              ? `${previousValue} ${operator}`
+              : ""}
+          </div>
 
-        <button onClick={() => pressButton("1")}>1</button>
-        <button onClick={() => pressButton("2")}>2</button>
-        <button onClick={() => pressButton("3")}>3</button>
-        <button
-          className="operator"
-          onClick={() => pressButton("+")}
-        >
-          +
-        </button>
+          <div className="current-value">
+            {display}
+          </div>
+        </div>
 
-        <button onClick={() => pressButton("0")}>0</button>
-        <button onClick={() => pressButton(".")}>.</button>
-        <button
-          className="equals"
-          onClick={() => pressButton("=")}
-        >
-          =
-        </button>
-      </div>
+        <div className="buttons">
+
+          <button
+            className="button function"
+            onClick={clearCalculator}
+          >
+            AC
+          </button>
+
+          <button
+            className="button function"
+            onClick={deleteNumber}
+          >
+            DEL
+          </button>
+
+          <button
+            className="button function"
+            onClick={percentage}
+          >
+            %
+          </button>
+
+          <button
+            className="button operator"
+            onClick={() => chooseOperator("÷")}
+          >
+            ÷
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("7")}
+          >
+            7
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("8")}
+          >
+            8
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("9")}
+          >
+            9
+          </button>
+
+          <button
+            className="button operator"
+            onClick={() => chooseOperator("×")}
+          >
+            ×
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("4")}
+          >
+            4
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("5")}
+          >
+            5
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("6")}
+          >
+            6
+          </button>
+
+          <button
+            className="button operator"
+            onClick={() => chooseOperator("-")}
+          >
+            −
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("1")}
+          >
+            1
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("2")}
+          >
+            2
+          </button>
+
+          <button
+            className="button"
+            onClick={() => inputNumber("3")}
+          >
+            3
+          </button>
+
+          <button
+            className="button operator"
+            onClick={() => chooseOperator("+")}
+          >
+            +
+          </button>
+
+          <button
+            className="button zero"
+            onClick={() => inputNumber("0")}
+          >
+            0
+          </button>
+
+          <button
+            className="button"
+            onClick={inputDecimal}
+          >
+            .
+          </button>
+
+          <button
+            className="button equals"
+            onClick={performCalculation}
+          >
+            =
+          </button>
+
+        </div>
+      </main>
+
+      <footer>
+        <span>Built with</span> React + Vite
+      </footer>
+
     </div>
   );
 }
